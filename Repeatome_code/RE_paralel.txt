@@ -1,0 +1,17 @@
+conda activate singularity
+
+for i in /home/polsince97/repeatexplorer/data/tmesipteris/*.fasta
+
+do
+
+name=$(basename $i)
+
+singularity exec -e --bind ${PWD}:/data/ repex_tarean  seqclust  -p -v ./data/re_output/${name%.fasta} ./data/tmesipteris/$name -c 15 &
+
+done
+
+
+singularity exec -e --bind ${PWD}:/data/ repex_tarean  seqclust  -p -v ./data/re_output/phoradendron ./data/phoradendron/791_sample_size_5743000.fasta -c 24 &
+
+
+TrimmomaticPE -phred33 Tm_obliqua_PAIREDF.fastq.gz Tm_obliqua_PAIREDR.fastq.gz Tm_obliqua_PAIREDF_clean.fastq.gz Tm_obliqua_PAIREDF_unpaired.fastq.gz Tm_obliqua_PAIREDR_clean.fastq.gz Tm_obliqua_PAIREDR_unpaired.fastq.gz  CROP:100 HEADCROP:10 MINLEN:90

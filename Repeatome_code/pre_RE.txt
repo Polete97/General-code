@@ -1,0 +1,16 @@
+seqtk sample -s 10  Tm_obliqua_PAIREDF_clean.fastq.gz 2000000 >  Tm_obliqua_PAIREDF_sample.fastq
+seqtk sample -s 10  Tm_obliqua_PAIREDR_clean.fastq.gz 2000000 >  Tm_obliqua_PAIREDR_sample.fastq
+
+seqtk sample -s 10  Tm_tannensis_PAIREDF_clean.fastq.gz 2000000 >  Tm_tannensis_PAIREDF_sample.fastq
+seqtk sample -s 10  Tm_tannensis_PAIREDR_clean.fastq.gz 2000000 >  Tm_tannensis_PAIREDR_sample.fastq
+
+# Make interleaved FASTQ
+seqtk mergepe Tm_obliqua_PAIREDF_sample.fastq Tm_obliqua_PAIREDR_sample.fastq seqtk  > Tm_obliqua_PAIREDR_sample_merged.fastq
+# Convert to FASTA
+seqtk seq -A Tm_obliqua_PAIREDR_sample_merged.fastq > Tm_obliqua_PAIREDR_sample_merged.fasta
+
+# Make interleaved FASTQ
+seqtk mergepe Tm_tannensis_PAIREDF_sample.fastq Tm_tannensis_PAIREDR_sample.fastq seqtk  > Tm_tannensis_PAIREDR_sample_merged.fastq
+# Convert to FASTA
+seqtk seq -A Tm_tannensis_PAIREDR_sample_merged.fastq > Tm_tannensis_PAIREDR_sample_merged.fasta
+
