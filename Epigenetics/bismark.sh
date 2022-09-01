@@ -7,7 +7,7 @@ for individual in *.fasta; do
     bismark_genome_preparation ./$name
     bismark --genome ./$name -1 $name"_1".fq -2 $name"_2".fq
     deduplicate_bismark --bam $name"bismark_bt2.bam"
-    bismark_methylation_extractor $name"deduplicated_bismark_bt2.bam"  --ignore 5 --ignore_r2 <int> 5
+    bismark_methylation_extractor $name"deduplicated_bismark_bt2.bam"  --ignore 5 --ignore_r2 5
 done
 
 bismark2report 
