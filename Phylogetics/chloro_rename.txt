@@ -1,0 +1,13 @@
+
+for name in *_plastome/*.fasta; do
+    [ ! -f "$name" ] && continue
+
+    dir="$( basename "$( dirname "$name" )" )"
+    newname="$dir/${dir}_${name##*/}"
+
+    if [ ! -e "$newname" ]; then
+        mv "$name" "$newname"
+    fi
+done
+
+for f in *.fasta; do sed -i "s/^>/>${f%.faa}/g" "${f}"; done
