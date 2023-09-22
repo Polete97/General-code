@@ -1,16 +1,12 @@
-seqtk sample -s 10  Tm_obliqua_PAIREDF_clean.fastq.gz 2000000 >  Tm_obliqua_PAIREDF_sample.fastq
-seqtk sample -s 10  Tm_obliqua_PAIREDR_clean.fastq.gz 2000000 >  Tm_obliqua_PAIREDR_sample.fastq
+ #!/bin/bash
 
-seqtk sample -s 10  Tm_tannensis_PAIREDF_clean.fastq.gz 2000000 >  Tm_tannensis_PAIREDF_sample.fastq
-seqtk sample -s 10  Tm_tannensis_PAIREDR_clean.fastq.gz 2000000 >  Tm_tannensis_PAIREDR_sample.fastq
-
+while read -r code samplig
+do
+seqtk sample -s 10  $code"_1P.fastq.gz" $samplig >  $code"_sampled_1P.fastq"
+seqtk sample -s 10  $code"_2P.fastq.gz" $samplig >  $code"_sampled_2P.fastq"
 # Make interleaved FASTQ
-seqtk mergepe Tm_obliqua_PAIREDF_sample.fastq Tm_obliqua_PAIREDR_sample.fastq seqtk  > Tm_obliqua_PAIREDR_sample_merged.fastq
+seqtk mergepe $code"_sampled_1P.fastq" $code"_sampled_2P.fastq" seqtk  > $code"_sampled_merged.fastq"
 # Convert to FASTA
-seqtk seq -A Tm_obliqua_PAIREDR_sample_merged.fastq > Tm_obliqua_PAIREDR_sample_merged.fasta
-
-# Make interleaved FASTQ
-seqtk mergepe Tm_tannensis_PAIREDF_sample.fastq Tm_tannensis_PAIREDR_sample.fastq seqtk  > Tm_tannensis_PAIREDR_sample_merged.fastq
-# Convert to FASTA
-seqtk seq -A Tm_tannensis_PAIREDR_sample_merged.fastq > Tm_tannensis_PAIREDR_sample_merged.fasta
-
+seqtk seq -A $code"_sampled_merged.fastq" > $code"_sampled_merged.fasta" 
+gzip $code*".fastq"
+done < code_samplig.txt
